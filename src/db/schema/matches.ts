@@ -1,6 +1,6 @@
-import { date, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { date, integer, pgTable, timestamp } from 'drizzle-orm/pg-core';
 import { teams } from './teams';
-import { MatchStatus } from '../enums/match-status';
+import { MatchStatus } from './enums/match-status';
 
 export const matches = pgTable('matches', {
   id: integer().primaryKey().generatedAlwaysAsIdentity({
@@ -14,7 +14,7 @@ export const matches = pgTable('matches', {
   home_team: integer().references(() => teams.id),
   away_team: integer().references(() => teams.id),
   date: date().notNull(),
-  status: text().notNull().default(MatchStatus.SCHEDULED),
+  status: MatchStatus('status').default('scheduled'),
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
 });

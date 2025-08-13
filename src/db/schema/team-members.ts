@@ -1,7 +1,7 @@
 import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 import { persons } from './persons';
 import { teams } from './teams';
-import { MemberType } from '../enums/member-type';
+import { MemberType } from './enums/member-type';
 import { categorys } from './categories';
 
 export const team_members = pgTable('team_members', {
@@ -17,7 +17,7 @@ export const team_members = pgTable('team_members', {
   person_id: integer().references(() => persons.id),
   back_number: integer(),
   position: text(),
-  member_type: text().notNull().default(MemberType.PLAYER),
+  member_type: MemberType('member_type').default('player'),
   id_category: integer().references(() => categorys.id),
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
