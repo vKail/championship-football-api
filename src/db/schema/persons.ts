@@ -1,4 +1,4 @@
-import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { date, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const persons = pgTable('persons', {
   id: integer().primaryKey().generatedAlwaysAsIdentity({
@@ -9,8 +9,10 @@ export const persons = pgTable('persons', {
     maxValue: 2147483647,
     cache: 1,
   }),
+  dni: text().notNull(),
   name: text().notNull(),
-  age: integer().notNull(),
+  surname: text().notNull(),
+  birthdate: date().notNull(),
   email: text().unique().notNull(),
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
