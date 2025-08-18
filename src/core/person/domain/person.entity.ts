@@ -1,11 +1,11 @@
 export class PersonEntity {
   constructor(
-    private readonly _id: number,
-    private readonly _dni: string,
-    private readonly _name: string,
-    private readonly _surename: string,
-    private readonly _birthdate: Date,
-    private readonly _email: string,
+    public readonly _id: number | null,
+    public _dni: string,
+    public _name: string,
+    public _surename: string,
+    public _birthdate: Date,
+    public _email: string,
   ) {}
 
   get fullName() {

@@ -11,7 +11,7 @@ import { UpdatePersonDTO } from 'src/core/person/presentation/dtos/update-person
 
 export class UpdateUserDTO {
   @IsString({ message: 'The username is required' })
-  @IsOptional({ message: 'username is required' })
+  @IsOptional()
   @ApiProperty({
     description: 'The alias that the user want to use in the app',
     example: 'jdoe12',
@@ -19,7 +19,7 @@ export class UpdateUserDTO {
   username: string;
 
   @IsEnum({ message: 'The role is required' })
-  @IsOptional({ message: 'role is required' })
+  @IsOptional()
   @ApiProperty({
     description: 'The type of user',
     enum: USER_ROLE,
@@ -28,7 +28,7 @@ export class UpdateUserDTO {
   role: string;
 
   @IsString({ message: 'The passsword is required' })
-  @IsOptional({ message: 'password is required' })
+  @IsOptional()
   @ApiProperty({
     description: 'password for the user in the app',
     example: 'password',

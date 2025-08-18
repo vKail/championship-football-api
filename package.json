@@ -23,6 +23,7 @@
   "dependencies": {
     "@nestjs/class-validator": "^0.13.4",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^11.2.0",
@@ -30,10 +31,11 @@
     "brcypt": "^1.0.1",
     "class-transformer": "^0.5.1",
     "dotenv": "^17.2.0",
-    "drizzle-orm": "^0.44.3",
+    "drizzle-orm": "^0.44.4",
     "drizzle-zod": "^0.8.2",
     "eslint-plugin-drizzle": "^0.2.3",
     "pg": "^8.16.3",
+    "postgres": "^3.4.7",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

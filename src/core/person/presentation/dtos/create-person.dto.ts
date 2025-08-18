@@ -32,7 +32,7 @@ export class CreatePersonDTO {
     description: 'The birthdate of the person',
     example: '24-10-2003',
   })
-  birthdate: number;
+  birthdate: Date;
 
   @IsEmail({ message: 'email must be valid' })
   @IsNotEmpty({ message: 'email is required' })
