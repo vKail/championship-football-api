@@ -4,6 +4,7 @@ import { UserResDTO } from '../presentation/dtos/user.response.dto';
 import { UserMapper } from '../infrastructure/helpers/user-mapper';
 import { CreateUserDTO } from '../presentation/dtos/create-user.dto';
 import { ApiResponse } from 'src/common/api-response';
+import { HashPassword } from 'src/common/security/helpers/hash-password';
 
 @Injectable()
 export class UsersService {
@@ -21,7 +22,8 @@ export class UsersService {
   }
 
   async create(user: CreateUserDTO): Promise<ApiResponse<UserResDTO>> {
-    const userMapped = UserMapper.fromCreate(user);
+    const hashedPass = await HashPassword(user.password);
+    const userMapped = UserMapper.fromCreate({ ...user, password: hashedPass });
     const userCreated = await this.userRepo.create(userMapped);
     return ApiResponse.success(UserMapper.toResponse(userCreated));
   }

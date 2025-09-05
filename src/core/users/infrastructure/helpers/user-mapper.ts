@@ -62,7 +62,7 @@ export class UserMapper {
         createDto.person.dni,
         createDto.person.name,
         createDto.person.surname,
-        createDto.person.birthdate,
+        new Date(createDto.person.birthdate),
         createDto.person.email,
       ),
       roleBDtoDomain[createDto.role],

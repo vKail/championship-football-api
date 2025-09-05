@@ -18,13 +18,40 @@ export class UserRepositoryImpl implements UserRepositoryInterface {
       where: (users, { eq }) => eq(users.id, id),
       with: { person: true },
     });
-    return UserMapper.fromPersistence(row);
+    return row ? UserMapper.fromPersistence(row) : null;
   }
   async create(user: UserEntity): Promise<UserEntity | null> {
-    const row = UserMapper.toPersistence(user);
-    const userAdded = await this.db.insert(schema.users).values(row);
-    return userAdded ? user : null;
+    const [person] = await this.db
+      .insert(schema.persons)
+      .values({
+        dni: user.person._dni,
+        name: user.person._name,
+        surname: user.person._surename,
+        birthdate: user.person._birthdate.toISOString().split('T')[0],
+        email: user.person._email,
+      })
+      .returning();
+    console.log(person);
+    if (!person) return null;
+
+    const [userRow] = await this.db
+      .insert(schema.users)
+      .values({
+        username: user.username,
+        role: user.role,
+        password: user.password,
+        person_id: person.id,
+      })
+      .returning();
+
+    return userRow
+      ? UserMapper.fromPersistence({
+          ...userRow,
+          person,
+        })
+      : null;
   }
+
   async update(user: UserEntity): Promise<UserEntity | null> {
     const [person] = await this.db
       .update(schema.persons)

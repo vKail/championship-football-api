@@ -30,7 +30,7 @@ export class CreatePersonDTO {
   @IsNotEmpty({ message: 'birthdate is required' })
   @ApiProperty({
     description: 'The birthdate of the person',
-    example: '24-10-2003',
+    example: '2003-10-24',
   })
   birthdate: Date;
 
