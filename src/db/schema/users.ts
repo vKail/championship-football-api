@@ -1,7 +1,7 @@
 import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 import { persons } from './persons';
 import { Role } from './enums/user-role';
-import { relations } from 'drizzle-orm';
+
 
 export const users = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity({
@@ -21,10 +21,3 @@ export const users = pgTable('users', {
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
 });
-
-export const usersRelations = relations(users, ({ one }) => ({
-  person: one(persons, {
-    fields: [users.person_id],
-    references: [persons.id],
-  }),
-}));

@@ -10,7 +10,7 @@ import { eq, sql } from 'drizzle-orm';
 @Injectable()
 export class UserRepositoryImpl implements UserRepositoryInterface {
   constructor(
-    @Inject(AsyncDrizzleProvider) private db: PostgresJsDatabase<typeof schema>,
+    @Inject(AsyncDrizzleProvider) private db: PostgresJsDatabase<typeof schema>
   ) {}
 
   async getById(id: number): Promise<UserEntity | null> {
@@ -24,14 +24,13 @@ export class UserRepositoryImpl implements UserRepositoryInterface {
     const [person] = await this.db
       .insert(schema.persons)
       .values({
-        dni: user.person._dni,
-        name: user.person._name,
-        surname: user.person._surename,
-        birthdate: user.person._birthdate.toISOString().split('T')[0],
-        email: user.person._email,
+        dni: user.person.dni,
+        name: user.person.name,
+        surname: user.person.surname,
+        birthdate: user.person.birthdate.toISOString().split('T')[0],
+        email: user.person.email,
       })
       .returning();
-    console.log(person);
     if (!person) return null;
 
     const [userRow] = await this.db
@@ -56,14 +55,14 @@ export class UserRepositoryImpl implements UserRepositoryInterface {
     const [person] = await this.db
       .update(schema.persons)
       .set({
-        dni: user.person._dni,
-        name: user.person._name,
-        surname: user.person._surename,
-        birthdate: user.person._birthdate.toDateString(),
-        email: user.person._email,
+        dni: user.person.dni,
+        name: user.person.name,
+        surname: user.person.surname,
+        birthdate: user.person.birthdate.toISOString().split('T')[0],
+        email: user.person.email,
         updated_at: sql`NOW()`,
       })
-      .where(eq(schema.users.person_id, user.person._id));
+      .where(eq(schema.users.person_id, user.person.id));
 
     if (!person) return null;
 

@@ -12,8 +12,8 @@ import { CreateUserDTO } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
-
+  constructor(private readonly userService: UsersService) {
+  }
   @Get()
   @ApiOperation({
     summary: 'Get all users',

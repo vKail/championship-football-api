@@ -7,7 +7,9 @@ import 'dotenv/config';
 export const drizzleProvider = {
   provide: AsyncDrizzleProvider,
   useFactory: async () => {
-    const client = postgres(process.env.DB_URL);
+    const client = postgres(
+      `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@localhost:${process.env.DB_PORT}/${process.env.DB_NAME}`
+    );
     const db = drizzle(client, { schema, logger: true });
     return db;
   },

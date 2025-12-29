@@ -7,33 +7,31 @@ import { CreateUserDTO } from '../../presentation/dtos/create-user.dto';
 
 export class UserMapper {
   static fromPersistence(
-    row: typeof users.$inferSelect & { person: typeof persons.$inferSelect },
+    row: typeof users.$inferSelect & { person: typeof persons.$inferSelect }
   ): UserEntity {
-    const person =
-      row.person &&
-      new PersonEntity(
-        row.person.id,
-        row.person.dni,
-        row.person.name,
-        row.person.surname,
-        new Date(row.person.birthdate),
-        row.person.email,
-      );
-
-    return new UserEntity(
-      row.id,
-      person,
-      roleBDtoDomain[row.role],
-      row.username,
-      row.password,
-    );
+    if (!row.person) throw new Error('Person data must exist');
+    const person = PersonEntity.rebuild({
+      id: row.person.id,
+      dni: row.person.dni,
+      name: row.person.name,
+      surname: row.person.surname,
+      birthdate: new Date(row.person.birthdate),
+      email: row.person.email,
+    });
+    return UserEntity.rebuild({
+      id: row.id,
+      person: person,
+      role: roleBDtoDomain[row.role],
+      username: row.username,
+      password: row.password,
+    });
   }
 
   static toPersistence(user: UserEntity): typeof users.$inferInsert {
     return {
       username: user.username,
       password: user.password,
-      person_id: user.person._id,
+      person_id: user.person.id,
       role: user.role,
     };
   }
@@ -44,30 +42,29 @@ export class UserMapper {
       username: entity.username,
       role: entity.role,
       person: {
-        id: entity.person._id,
-        dni: entity.person._dni,
-        name: entity.person._name,
-        surname: entity.person._surename,
-        birthdate: entity.person._birthdate,
-        email: entity.person._email,
+        id: entity.person.id,
+        dni: entity.person.dni,
+        name: entity.person.name,
+        surname: entity.person.surname,
+        birthdate: entity.person.birthdate,
+        email: entity.person.email,
       },
     };
   }
 
   static fromCreate(createDto: CreateUserDTO): UserEntity {
-    return new UserEntity(
-      null,
-      new PersonEntity(
-        null,
-        createDto.person.dni,
-        createDto.person.name,
-        createDto.person.surname,
-        new Date(createDto.person.birthdate),
-        createDto.person.email,
-      ),
-      roleBDtoDomain[createDto.role],
-      createDto.username,
-      createDto.password,
-    );
+    const person = PersonEntity.create({
+      dni: createDto.person.dni,
+      name: createDto.person.name,
+      surname: createDto.person.surname,
+      birthdate: new Date(createDto.person.birthdate),
+      email: createDto.person.email,
+    });
+    return UserEntity.create({
+      person: person,
+      role: roleBDtoDomain[createDto.role],
+      username: createDto.username,
+      password: createDto.password,
+    });
   }
 }

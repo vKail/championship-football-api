@@ -8,5 +8,6 @@ import { DrizzleModule } from 'src/drizzle/drizzle.module';
   imports: [DrizzleModule],
   providers: [UsersService, UserRepositoryImpl],
   controllers: [UsersController],
+  exports: [UsersService, UserRepositoryImpl],
 })
 export class UsersModule {}

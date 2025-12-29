@@ -11,3 +11,4 @@ export * from './matches';
 export * from './goals';
 export * from './match-lineup';
 export * from './team-members';
+export * from './user-person-relations';

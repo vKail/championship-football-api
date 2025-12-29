@@ -1,15 +1,77 @@
+import { Person, PersonCreate } from './interface/person-domain.interface';
+
 export class PersonEntity {
-  constructor(
-    public readonly _id: number | null,
-    public _dni: string,
-    public _name: string,
-    public _surename: string,
-    public _birthdate: Date,
-    public _email: string,
-  ) {}
+  private _id: number | null;
+  private _dni: string;
+  private _name: string;
+  private _surname: string;
+  private _birthdate: Date;
+  private _email: string;
+
+  private constructor(
+    id: number | null,
+    dni: string,
+    name: string,
+    surname: string,
+    birthdate: Date,
+    email: string
+  ) {
+    this._id = id;
+    this._dni = dni;
+    this._name = name;
+    this._surname = surname;
+    this._birthdate = birthdate;
+    this._email = email;
+  }
+
+  static create(data: PersonCreate) {
+    return new PersonEntity(
+      null,
+      data.dni,
+      data.name,
+      data.surname,
+      data.birthdate,
+      data.email
+    );
+  }
+
+  static rebuild(data: Person) {
+    return new PersonEntity(
+      data.id,
+      data.dni,
+      data.name,
+      data.surname,
+      data.birthdate,
+      data.email
+    );
+  }
+
+  get id(): number | null {
+    return this._id;
+  }
+
+  get dni(): string {
+    return this._dni;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  get surname(): string {
+    return this._surname;
+  }
+
+  get birthdate(): Date {
+    return this._birthdate;
+  }
+
+  get email(): string {
+    return this._email;
+  }
 
   get fullName() {
-    return `${this._name} ${this._surename}`;
+    return `${this._name} ${this._surname}`;
   }
 
   get age() {
